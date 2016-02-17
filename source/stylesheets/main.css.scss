@@ -1,0 +1,322 @@
+/* yui reset css */
+html{color:#000;background:#FFF}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}q:before,q:after{content:''}abbr,acronym{border:0;font-variant:normal}sup{vertical-align:text-top}sub{vertical-align:text-bottom}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;*font-size:100%}legend{color:#000}#yui3-css-stamp.cssreset{display:none}
+
+/* values */
+$background-color: #FCFCFC;
+$font-color: #595959;
+$link-color: #08F;
+$main-color: #BCB08A;
+$main-lighter: rgba($main-color, 0.10);
+$border-color: rgba(0, 0, 0, 0.2);
+
+/* mix-in */
+@mixin cf{
+	zoom: 1;
+	&:after{
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+@mixin media-query($width){
+	@media screen and (max-width: $width) {
+		@content;
+	}
+}
+@mixin fixed_ratio($ratio: 100%){
+	position: relative;
+	&:after{
+		padding-top: $ratio;
+		display: block;
+		content: "";
+	}
+	& > *{
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+}
+@mixin circumscribe-image{
+	//background-image: url('./hoge.jpg')
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+@mixin ellipsis{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+@mixin page-margin{
+	max-width: 1000px;
+	margin: 0 auto;
+}
+@mixin liquid-left($width: 300px, $margin: 10px, $prefix: ''){
+	@include cf;
+	.#{$prefix}liquid-left{
+		float: left;
+		width: 100%;
+		margin-right: -$width;
+	}
+	.#{$prefix}liquid-in{
+		margin-right: $width + $margin;
+	}
+	.#{$prefix}liquid-right{
+		float: right;
+		width: $width;
+	}
+}
+@mixin liquid-right($width: 300px, $margin: 10px){
+	@include cf;
+	.liquid-right{
+		float: right;
+		width: 100%;
+		margin-left: -$width;
+	}
+	.liquid-in{
+		margin-left: $width + $margin;
+	}
+	.liquid-left{
+		float: left;
+		width: $width;
+	}
+
+}
+@mixin liquid-break($break-point: 500px, $prefix: ''){
+	@include media-query($break-point){
+		.#{$prefix}liquid-left, .#{$prefix}liquid-right{
+			float: none;
+			width: 100%;
+		}
+		.#{$prefix}liquid-left, .#{$prefix}liquid-in{
+			margin-right: 0;
+		}
+	}
+}
+
+/* general */
+*{
+	box-sizing: inherit;
+}
+html{
+	background-color: $background-color;
+	font-size: 16px;
+	line-height: 1.5;
+	color: $font-color;
+	font-family: 'Raleway', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, メイリオ, Osaka, 'MS PGothic', arial, helvetica, sans-serif;
+	-webkit-text-size-adjust: 100%;
+	box-sizing: border-box;
+}
+a{
+	text-decoration: none;
+	color: inherit;
+	&:hover{
+		text-decoration: underline;
+	}
+}
+input, textarea{
+	width: 100%;
+	max-width: 400px;
+	padding: 2px 5px;
+	border: 1px solid $border-color;
+	&[type="submit"]{
+		width: auto;
+		background: white;
+		border: 1px solid grey;
+		border-radius: 4px;
+		padding: 2px 6px 0;
+	}
+	&[type="checkbox"]{
+		width: auto;
+	}
+	&[type="file"]{
+		width: auto;
+		display: block;
+		border: none;
+		margin-bottom: 10px;
+	}
+	&:read-only, &:-moz-read-only{
+		background: $background-color !important;
+	}
+}
+audio{
+	display: none;
+}
+
+/* header, footer */
+.header{
+	border-top: 3px solid $main-color;
+	border-bottom: 1px solid $border-color;
+	padding: 13px 10px 12px;
+	.in{
+		@include page_margin;
+		text-align: center;
+	}
+	.title{
+		font-size: 30px;
+		font-weight: bold;
+	}
+}
+.content{
+	padding: 10px;
+	overflow: hidden;
+	.in{
+		@include page_margin;
+		@include liquid-left(300px, 10px, 'layout-');
+		@include liquid-break(700px, 'layout-');
+		.layout-liquid-left{
+			margin-bottom: 30px;
+		}
+	}
+}
+.footer{
+	margin-top: 50px;
+	border-bottom: 3px solid $main-color;
+	border-top: 1px solid $border-color;
+	padding: 0 10px;
+	.copyright{
+		@include page_margin;
+		padding: 10px 0;
+		text-align: center;
+		font-size: 12px;
+	}
+}
+
+/* specific */
+.displaynumber{
+	margin-bottom: 10px;
+	text-align: center;
+	line-height: 1;
+	.powoon{
+		font-size: 16px;
+		font-weight: bold;
+		.num{
+			font-size: 30px;
+		}
+	}
+	.pps{
+		color: grey;
+		font-size: 16px;
+		.num{
+			font-size: 16px;
+		}
+	}
+}
+
+.clickzone{
+	max-width: 500px;
+	margin: 0 auto;
+	@include fixed_ratio(100%);
+	@include circumscribe-image;
+	cursor: pointer;
+	-webkit-touch-callout:none;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	.popups{
+		position: relative;
+		user-select: none;
+		p{
+			position: absolute;
+			font-size: 40px;
+			font-weight: bold;
+			margin: -30px -70px;
+			top: 100px;
+			left: 100px;
+		}
+	}
+}
+
+.power-overlay{
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 160px;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border: 1px solid $border-color;
+	border-left: none;
+	box-shadow: 0 0 3px rgba(0,0,0,0.4);
+	background: white;
+	.item{
+		@include fixed_ratio(100%);
+		width: 40px;
+		i{
+			vertical-align: top;
+			text-align: center;
+			margin-top: 12px;
+		}
+		&.disable{
+			background: grey;
+		}
+	}
+	@include media-query(700px){
+		display: block;
+	}
+}
+
+.side-box{
+	box-shadow: 0 0 3px rgba(0,0,0,0.4);
+	margin-bottom: 10px;
+	.main-title{
+		text-align: center;
+		width: 100%;
+		padding: 10px;
+		border-bottom: 1px solid $main-color;
+		box-shadow: 0 1px 0 $border-color;
+		position: relative;
+		.up-arrow{
+			position: absolute;
+			font-size: 40px;
+			right: 12px;
+			top: 1px;
+			line-height: 1;
+			display: none;
+			@include media-query(700px){
+				display: block;
+			}
+		}
+	}
+	.power{
+		padding: 10px;
+		.item{
+			display: block;
+			border: 1px solid $border-color;
+			box-shadow: 0 0 3px rgba(0,0,0,0.4);
+			padding: 5px;
+			@include liquid-right(40px, 10px);
+			&.disable{
+				background: #999;
+			}
+			i{
+				display: block;
+				width: 100%;
+				text-align: center;
+				margin: 13px 0 0 2px;
+				font-size: 30px;
+			}
+			.desc{
+				color: grey;
+				font-size: 12px;
+			}
+		}
+	}
+	.items{
+		padding: 10px;
+		@include cf;
+		.item{
+			display: block;
+			float: left;
+			width: 23%;
+			margin: 1%;
+			@include fixed_ratio(100%);
+			text-align: center;
+			font-size: 40px;
+			border: 1px solid $border-color;
+			box-shadow: 0 0 3px rgba(0,0,0,0.4);
+			.fa{
+				margin: 10px;
+			}
+		}
+	}
+}
